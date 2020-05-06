@@ -2,10 +2,10 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 
-import { AppLoading } from 'expo';
 import { useFonts } from '@use-expo/font';
 
 import RootStack from './src/stacks/RootStack';
+import Spinner from './src/components/Spinner';
 
 const customFonts = {
 	Light: require('./assets/fonts/Open_Sans/OpenSans-Light.ttf'),
@@ -19,7 +19,7 @@ const App = () => {
 	const [ fontsLoaded ] = useFonts(customFonts);
 
 	if (!fontsLoaded) {
-		return <AppLoading />;
+		return <Spinner />;
 	}
 
 	return <RootStack />;

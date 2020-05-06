@@ -1,16 +1,14 @@
 import React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import Text from '../components/Text';
 
 const SignIn = () => {
 	return (
 		<View style={styles.container}>
-			<Text style={{ ...styles.textStyle }}>System Fonts</Text>
-			<Text style={{ ...styles.textStyle, fontFamily: 'Light' }}>OpenSans-Light</Text>
-			<Text style={{ ...styles.textStyle, fontFamily: 'Regular' }}>OpenSans-Regular</Text>
-			<Text style={{ ...styles.textStyle, fontFamily: 'SemiBold' }}>OpenSans-SemiBold</Text>
-			<Text style={{ ...styles.textStyle, fontFamily: 'Bold' }}>OpenSans-Bold</Text>
-			<Text style={{ ...styles.textStyle, fontFamily: 'ExtraBold' }}>OpenSans-ExtraBold</Text>
+			<Text>OpenSans-Regular</Text>
+			<Text weight='SemiBold'>OpenSans-SemiBold</Text>
 		</View>
 	);
 };
@@ -23,8 +21,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center'
-	},
-	textStyle: {
-		fontSize: 25
 	}
 });
