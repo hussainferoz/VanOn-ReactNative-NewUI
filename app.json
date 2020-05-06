@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "VanOn-New-UI",
-    "slug": "VanOn-New-UI",
+    "name": "VanOn",
+    "slug": "VanOn",
     "platforms": [
       "ios",
       "android",
