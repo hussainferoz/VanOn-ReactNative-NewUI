@@ -18,7 +18,7 @@ const Text = (props) => {
 export default Text;
 
 Text.defaultProps = {
-	size: 18,
+	size: 16,
 	weight: 'Regular',
-	color: 'black'
+	color: '#434343'
 };

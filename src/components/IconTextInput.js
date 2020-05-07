@@ -1,24 +1,23 @@
 import React from 'react';
 
 import { View, TextInput, StyleSheet, Dimensions } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 const IconTextInput = (props) => {
 	const getProps = () => {
-		const { size, weight, color } = props;
+		const { size, weight } = props;
 
 		return {
 			fontSize: size,
-			fontFamily: weight,
-			color
+			fontFamily: weight
 		};
 	};
 
 	return (
 		<View style={styles.container}>
-			<MaterialIcons name={props.iconName} size={20} style={styles.icon} />
+			<Icon name={props.iconName} size={20} style={styles.icon} />
 			<TextInput
 				placeholder={props.name}
 				placeholderTextColor='#434343'
@@ -32,21 +31,21 @@ const IconTextInput = (props) => {
 export default IconTextInput;
 
 IconTextInput.defaultProps = {
-	size: 15,
+	size: 16,
 	weight: 'Regular',
-	color: '#434343',
 	textVisibility: false
 };
 
 const styles = StyleSheet.create({
 	container: {
-		width: width - 60,
+		width: width - 50,
 		height: 50,
 		backgroundColor: '#fff',
 		elevation: 5,
 		borderRadius: 25,
 		alignItems: 'center',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		margin: 15
 	},
 	icon: {
 		color: '#434343',
