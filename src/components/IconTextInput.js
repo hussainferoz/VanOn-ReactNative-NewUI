@@ -22,6 +22,7 @@ const IconTextInput = (props) => {
 				placeholder={props.name}
 				placeholderTextColor='#434343'
 				secureTextEntry={props.textVisibility}
+				keyboardType={props.keyboardType && props.keyboardType}
 				style={{ ...getProps(), ...styles.textInput }}
 			/>
 		</View>

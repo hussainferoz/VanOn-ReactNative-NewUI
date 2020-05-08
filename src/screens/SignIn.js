@@ -1,41 +1,70 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import Animated, { Value, useCode, cond, eq, set, interpolate } from 'react-native-reanimated';
 
-import { StyleSheet, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import { useTimingTransition } from 'react-native-redash';
 
-const { width } = Dimensions.get('window');
-
+import Logo from '../components/Logo';
 import Text from '../components/Text';
 import IconTextInput from '../components/IconTextInput';
 import Button from '../components/RippleButton';
 
+import { SCREEN_HEIGHT, SCREEN_WIDTH, LOGIN_VIEW } from '../Constants';
+
 const SignIn = () => {
+	const scale = useRef(new Value(0));
+	const scaleAnimation = useTimingTransition(scale.current, { duration: 500 });
+
+	useCode(() => cond(eq(scale.current, 0), set(scale.current, 1)), []);
+
+	const translateY = interpolate(scaleAnimation, {
+		inputRange: [ 0, 1 ],
+		outputRange: [ SCREEN_HEIGHT, LOGIN_VIEW ]
+	});
+
+	const opacity = interpolate(scaleAnimation, {
+		inputRange: [ 0, 1 ],
+		outputRange: [ 0, 1 ]
+	});
+
 	return (
 		<View style={styles.container}>
-			<View style={styles.topContainer}>
-				<Image source={require('../../assets/VanOn_Logo.png')} resizeMode='contain' style={styles.logoImage} />
-			</View>
-			<View style={styles.bottomContainer}>
-				<View style={styles.bottomTopContainer}>
+			<StatusBar backgroundColor='#075E54' barStyle='light-content' />
+
+			<Animated.View style={styles.logoContainer}>
+				<Logo scale={scaleAnimation} />
+			</Animated.View>
+
+			<Animated.View
+				style={{
+					...StyleSheet.absoluteFill,
+					...styles.bottomContainer,
+					transform: [
+						{
+							translateY: translateY
+						}
+					],
+					opacity
+				}}
+			>
+				<Animated.View style={styles.textContainer}>
 					<Text size={30} weight='Bold'>
 						Welcome,
 					</Text>
 					<Text size={20} weight='SemiBold'>
 						Sign in to continue!
 					</Text>
-				</View>
+				</Animated.View>
 
-				<View style={styles.bottomEndContainer}>
-					<IconTextInput iconName='email' name='Email' />
-
+				<Animated.View style={styles.actionContainer}>
+					<IconTextInput iconName='email' name='Email' keyboardType='email-address' />
 					<IconTextInput iconName='key' name='Password' textVisibility={true} />
-
-					<View style={styles.forgotPassword}>
+					<Animated.View style={styles.forgotPassword}>
 						<Text weight='SemiBold'>Forgot Password?</Text>
-					</View>
-
+					</Animated.View>
 					<Button iconName='login'>Sign In </Button>
-				</View>
-			</View>
+				</Animated.View>
+			</Animated.View>
 		</View>
 	);
 };
@@ -45,39 +74,28 @@ export default SignIn;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
 		backgroundColor: '#075E54'
 	},
-	topContainer: {
-		flex: 2,
-		justifyContent: 'center',
+	logoContainer: {
+		flex: 1,
 		alignItems: 'center'
 	},
-	logoImage: {
-		width: width,
-		height: 115 * (width / 440)
-	},
 	bottomContainer: {
-		flex: 8,
-		width: width,
-		paddingTop: 30,
-		backgroundColor: '#f8f8f8',
-		borderTopLeftRadius: 35,
-		borderTopRightRadius: 35
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
+		backgroundColor: '#f8f8f8'
 	},
-	bottomTopContainer: {
+	textContainer: {
 		paddingLeft: 30,
-		marginBottom: 30
+		paddingVertical: 15
 	},
-	bottomEndContainer: {
-		flex: 1,
+	actionContainer: {
+		paddingVertical: 15,
 		alignItems: 'center'
 	},
 	forgotPassword: {
 		alignItems: 'flex-end',
-		width: width - 60,
+		width: SCREEN_WIDTH - 60,
 		marginBottom: 30
 	}
 });

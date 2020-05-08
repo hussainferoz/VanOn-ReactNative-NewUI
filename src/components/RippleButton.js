@@ -1,5 +1,4 @@
 import React from 'react';
-import Animated from 'react-native-reanimated';
 
 import { StyleSheet, Dimensions } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
