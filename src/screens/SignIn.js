@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Animated, { Value, useCode, cond, eq, set, interpolate } from 'react-native-reanimated';
 
 import { StyleSheet, View, StatusBar } from 'react-native';
@@ -13,6 +13,8 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH, LOGIN_VIEW } from '../Constants';
 
 const SignIn = () => {
 	const scale = useRef(new Value(0));
+	const [ viewPassowrd, setViewPassword ] = useState(true);
+
 	const scaleAnimation = useTimingTransition(scale.current, { duration: 500 });
 
 	useCode(() => cond(eq(scale.current, 0), set(scale.current, 1)), []);
@@ -58,17 +60,31 @@ const SignIn = () => {
 
 				<Animated.View style={styles.actionContainer}>
 					<TextInput
-						iconName='email'
+						iconLeftName='email'
 						name='Email'
 						keyboardType='email-address'
 						bordertype='Rounded'
 						elevation
+						style={styles.textInput}
 					/>
 
-					<TextInput iconName='key' name='Password' textVisibility={true} bordertype='Rounded' elevation />
+					<TextInput
+						iconLeftName='key'
+						iconRightName={viewPassowrd ? 'eye' : 'eye-off'}
+						iconRightPress={() => {
+							setViewPassword(!viewPassowrd);
+						}}
+						name='Password'
+						bordertype='Rounded'
+						textVisibility={viewPassowrd}
+						elevation
+						style={styles.textInput}
+					/>
+
 					<Animated.View style={styles.forgotPassword}>
 						<Text weight='SemiBold'>Forgot Password?</Text>
 					</Animated.View>
+
 					<Button iconName='login'>Sign In </Button>
 				</Animated.View>
 			</Animated.View>
@@ -93,16 +109,18 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f8f8f8'
 	},
 	textContainer: {
-		paddingLeft: 30,
+		paddingLeft: 20,
 		paddingVertical: 15
 	},
 	actionContainer: {
-		paddingVertical: 15,
 		alignItems: 'center'
 	},
 	forgotPassword: {
 		alignItems: 'flex-end',
 		width: SCREEN_WIDTH - 60,
 		marginBottom: 30
+	},
+	textInput: {
+		marginVertical: 15
 	}
 });

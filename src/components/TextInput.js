@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ReactNative, { View, StyleSheet, TouchableOpacity } from 'react-native';
+import ReactNative, { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { SCREEN_WIDTH } from '../Constants';
 
@@ -30,7 +30,7 @@ const getStyles = ({ fontWeight, bordertype, elevation, disabled, color }) => {
 	if (bordertype === 'Rounded') {
 		containerStyles.push({ borderRadius: 25 });
 	} else if (bordertype === 'Squared') {
-		containerStyles.push({ borderRadius: 5 });
+		containerStyles.push({ borderRadius: 8 });
 	}
 
 	if (disabled) {
@@ -45,13 +45,34 @@ const getStyles = ({ fontWeight, bordertype, elevation, disabled, color }) => {
 };
 
 const TextInput = (props) => {
-	const { name, iconName, iconSize, textVisibility, fontSize, color, disabled, keyboardType, ...rest } = props;
+	const {
+		name,
+		iconLeftName,
+		iconRightName,
+		iconSize,
+		textVisibility,
+		fontSize,
+		color,
+		disabled,
+		keyboardType,
+		style,
+		iconRightPress,
+		iconLeftPress,
+		...rest
+	} = props;
 
 	const { containerStyles, inputStyles, iconStyles } = getStyles({ disabled, color, ...rest });
 
 	return (
-		<View style={containerStyles} pointerEvents={disabled ? 'none' : null}>
-			{iconName ? <Icon name={iconName} size={iconSize} style={[ iconStyles ]} /> : null}
+		<View style={[ containerStyles, { ...style } ]} pointerEvents={disabled ? 'none' : null}>
+			{iconLeftName ? (
+				<Icon
+					name={iconLeftName}
+					size={iconSize}
+					style={[ iconStyles, { marginLeft: 20 } ]}
+					onPress={iconLeftPress && iconLeftPress}
+				/>
+			) : null}
 
 			<ReactNative.TextInput
 				placeholder={name}
@@ -60,6 +81,15 @@ const TextInput = (props) => {
 				keyboardType={keyboardType && keyboardType}
 				style={[ inputStyles, { fontSize } ]}
 			/>
+
+			{iconRightName ? (
+				<Icon
+					name={iconRightName}
+					size={iconSize}
+					style={[ iconStyles, { marginRight: 20 } ]}
+					onPress={iconRightPress && iconRightPress}
+				/>
+			) : null}
 		</View>
 	);
 };
@@ -72,7 +102,8 @@ TextInput.defaultProps = {
 	fontWeight: 'Regular',
 	color: '#434343',
 	textVisibility: false,
-	disabled: false
+	disabled: false,
+	bordertype: 'Default'
 };
 
 TextInput.prototype = {
@@ -90,15 +121,15 @@ const styles = StyleSheet.create({
 	containerDefault: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		width: SCREEN_WIDTH - 50,
-		height: 50,
 		backgroundColor: '#fff',
-		marginVertical: 10
+		height: 50,
+		width: SCREEN_WIDTH - 30
 	},
 	iconDefault: {
-		marginHorizontal: 20
+		marginHorizontal: 5
 	},
 	textInputDefault: {
-		flex: 1
+		flex: 1,
+		marginHorizontal: 10
 	}
 });
