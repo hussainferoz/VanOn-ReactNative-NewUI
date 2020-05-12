@@ -6,7 +6,7 @@ import { useTimingTransition } from 'react-native-redash';
 
 import Logo from '../components/Logo';
 import Text from '../components/Text';
-import IconTextInput from '../components/IconTextInput';
+import TextInput from '../components/TextInput';
 import Button from '../components/RippleButton';
 
 import { SCREEN_HEIGHT, SCREEN_WIDTH, LOGIN_VIEW } from '../Constants';
@@ -57,8 +57,15 @@ const SignIn = () => {
 				</Animated.View>
 
 				<Animated.View style={styles.actionContainer}>
-					<IconTextInput iconName='email' name='Email' keyboardType='email-address' />
-					<IconTextInput iconName='key' name='Password' textVisibility={true} />
+					<TextInput
+						iconName='email'
+						name='Email'
+						keyboardType='email-address'
+						bordertype='Rounded'
+						elevation
+					/>
+
+					<TextInput iconName='key' name='Password' textVisibility={true} bordertype='Rounded' elevation />
 					<Animated.View style={styles.forgotPassword}>
 						<Text weight='SemiBold'>Forgot Password?</Text>
 					</Animated.View>
