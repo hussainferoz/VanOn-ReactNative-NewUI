@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import { StyleSheet, Text, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 const Map = () => {
+	const [ mapMargin, setMapMargin ] = useState(1);
+
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Map Screen</Text>
+			<MapView
+				provider={PROVIDER_GOOGLE}
+				loadingEnabled
+				style={{ ...StyleSheet.absoluteFill, margin: mapMargin }}
+				onMapReady={() => {
+					setMapMargin(0);
+				}}
+			/>
 		</View>
 	);
 };
@@ -16,9 +27,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
-	},
-	text: {
-		fontSize: 25,
-		fontFamily: 'Bold'
 	}
 });
