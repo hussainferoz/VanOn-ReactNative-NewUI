@@ -3,29 +3,22 @@ import PropTypes from 'prop-types';
 
 import ReactNative from 'react-native';
 
-const getStyles = ({ fontWeight }) => {
-	const textStyles = [];
-
-	if (fontWeight === 'Light') {
-		textStyles.push({ fontFamily: 'Light' });
-	} else if (fontWeight === 'Regular') {
-		textStyles.push({ fontFamily: 'Regular' });
-	} else if (fontWeight === 'SemiBold') {
-		textStyles.push({ fontFamily: 'SemiBold' });
-	} else if (fontWeight === 'Bold') {
-		textStyles.push({ fontFamily: 'Bold' });
-	} else if (fontWeight === 'ExtraBold') {
-		textStyles.push({ fontFamily: 'ExtraBold' });
-	}
+const getStyles = ({ fontSize, fontWeight, color, style }) => {
+	const textStyles = {
+		fontSize,
+		fontFamily: fontWeight,
+		color,
+		...style
+	};
 
 	return { textStyles };
 };
 
 const Text = (props) => {
-	const { fontSize, children, color, style, ...rest } = props;
+	const { children, ...rest } = props;
 	const { textStyles } = getStyles({ ...rest });
 
-	return <ReactNative.Text style={[ textStyles, { ...style, fontSize, color } ]}>{children}</ReactNative.Text>;
+	return <ReactNative.Text style={textStyles}>{children}</ReactNative.Text>;
 };
 
 export default Text;
