@@ -5,7 +5,7 @@ import React from 'react';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 
-import RootStack from './src/stacks/RootStack';
+import RootStack from './src/navigations/RootStack';
 
 const customFonts = {
 	Light: require('./assets/fonts/Open_Sans/OpenSans-Light.ttf'),

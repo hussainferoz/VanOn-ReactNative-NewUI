@@ -1,12 +1,15 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import Authentication from './Authentication';
+
+import AuthStack from './AuthStack';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const RootStack = () => {
 	return (
 		<NavigationContainer>
-			<Authentication />
+			{/* <AuthStack /> */}
+			<BottomTabNavigator />
 		</NavigationContainer>
 	);
 };
