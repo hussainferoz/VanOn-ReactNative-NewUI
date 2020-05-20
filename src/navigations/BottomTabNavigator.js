@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Map from '../screens/Map';
 import Setting from '../screens/Setting';
+import Text from '../components/Text';
 
 const Tabs = createMaterialBottomTabNavigator();
 
@@ -16,7 +17,14 @@ const BottomTabNavigator = () => {
 				component={Map}
 				options={{
 					tabBarColor: '#3f48cc',
-					tabBarIcon: ({ color }) => <MaterialCommunityIcons name='map-outline' color={color} size={26} />
+					tabBarLabel: (
+						<Text fontSize={14} fontWeight='SemiBold'>
+							Map
+						</Text>
+					),
+					tabBarIcon: ({ focused, color }) => (
+						<MaterialCommunityIcons name='google-maps' color={color} size={26} />
+					)
 				}}
 			/>
 			<Tabs.Screen
@@ -24,8 +32,13 @@ const BottomTabNavigator = () => {
 				component={Setting}
 				options={{
 					tabBarColor: '#00a8f3',
-					tabBarIcon: ({ color }) => (
-						<MaterialCommunityIcons name='settings-outline' color={color} size={26} />
+					tabBarLabel: (
+						<Text fontSize={14} fontWeight='SemiBold'>
+							Setting
+						</Text>
+					),
+					tabBarIcon: ({ focused, color }) => (
+						<MaterialCommunityIcons name='settings' color={color} size={26} />
 					)
 				}}
 			/>

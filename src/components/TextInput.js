@@ -100,7 +100,7 @@ TextInput.defaultProps = {
 	fontSize: 16,
 	iconSize: 20,
 	fontWeight: 'Regular',
-	color: '#434343',
+	color: '#fff',
 	textVisibility: false,
 	disabled: false,
 	bordertype: 'Default'

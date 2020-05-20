@@ -10,8 +10,8 @@ import RootStack from './src/navigations/RootStack';
 const customFonts = {
 	Light: require('./assets/fonts/Open_Sans/OpenSans-Light.ttf'),
 	Regular: require('./assets/fonts/Open_Sans/OpenSans-Regular.ttf'),
-	Bold: require('./assets/fonts/Open_Sans/OpenSans-Bold.ttf'),
 	SemiBold: require('./assets/fonts/Open_Sans/OpenSans-SemiBold.ttf'),
+	Bold: require('./assets/fonts/Open_Sans/OpenSans-Bold.ttf'),
 	ExtraBold: require('./assets/fonts/Open_Sans/OpenSans-ExtraBold.ttf')
 };
 

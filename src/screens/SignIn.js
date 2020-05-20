@@ -11,6 +11,8 @@ import Button from '../components/RippleButton';
 
 import { SCREEN_HEIGHT, SCREEN_WIDTH, LOGIN_VIEW } from '../Constants';
 
+const textColor = '#434343';
+
 const SignIn = () => {
 	const scale = useRef(new Value(0));
 	const [ viewPassowrd, setViewPassword ] = useState(true);
@@ -50,10 +52,10 @@ const SignIn = () => {
 				}}
 			>
 				<Animated.View style={styles.textContainer}>
-					<Text size={30} weight='Bold'>
+					<Text fontSize={30} fontWeight='Bold' color={textColor}>
 						Welcome,
 					</Text>
-					<Text size={20} weight='SemiBold'>
+					<Text fontSize={20} fontWeight='SemiBold' color={textColor}>
 						Sign in to continue!
 					</Text>
 				</Animated.View>
@@ -65,6 +67,7 @@ const SignIn = () => {
 						keyboardType='email-address'
 						bordertype='Rounded'
 						elevation
+						color={textColor}
 						style={styles.textInput}
 					/>
 
@@ -78,12 +81,13 @@ const SignIn = () => {
 						bordertype='Rounded'
 						textVisibility={viewPassowrd}
 						elevation
+						color={textColor}
 						style={styles.textInput}
 					/>
 
-					<Animated.View style={styles.forgotPassword}>
-						<Text weight='SemiBold'>Forgot Password?</Text>
-					</Animated.View>
+					<Text fontWeight='SemiBold' color={textColor} style={styles.forgotPassword}>
+						Forgot Password?
+					</Text>
 
 					<Button iconName='login'>Sign In </Button>
 				</Animated.View>
@@ -116,9 +120,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	forgotPassword: {
-		alignItems: 'flex-end',
-		width: SCREEN_WIDTH - 60,
-		marginBottom: 30
+		alignSelf: 'flex-end',
+		marginBottom: 30,
+		marginRight: 30
 	},
 	textInput: {
 		marginVertical: 15
