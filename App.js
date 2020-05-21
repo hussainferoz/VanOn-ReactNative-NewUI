@@ -2,10 +2,15 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
 
 import RootStack from './src/navigations/RootStack';
+import Reducer from './src/store/Reducer';
+
+const store = createStore(Reducer);
 
 const customFonts = {
 	Light: require('./assets/fonts/Open_Sans/OpenSans-Light.ttf'),
@@ -22,7 +27,11 @@ const App = () => {
 		return <AppLoading />;
 	}
 
-	return <RootStack />;
+	return (
+		<Provider store={store}>
+			<RootStack />
+		</Provider>
+	);
 };
 
 export default App;
