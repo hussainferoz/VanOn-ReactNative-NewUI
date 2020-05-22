@@ -6,12 +6,17 @@ const initialState = {
 
 const Reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case 'Test':
+		case 'TOKEN_NOT_FOUND':
+			return {
+				...state,
+				isLoading: false
+			};
+		case 'TOKEN_USER_FOUND':
 			return {
 				...state,
 				isLoading: false,
-				token: 'dfsfsojfjs',
-				user: {}
+				token: action.payload.token,
+				user: action.payload.user
 			};
 	}
 	return state;
