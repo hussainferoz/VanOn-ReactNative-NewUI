@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 
 import AuthStack from './AuthStack';
@@ -8,10 +8,20 @@ import BottomTabNavigator from './BottomTabNavigator';
 import Spinner from '../components/Spinner';
 
 const RootStack = () => {
-	const { token, user } = useSelector((state) => state);
+	const { isLoading, token, user } = useSelector((state) => state);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setTimeout(() => {
+			dispatch({ type: 'Test' });
+		}, 5000);
+	}, []);
 
 	return (
-		<NavigationContainer>{token ? user ? <BottomTabNavigator /> : <AuthStack /> : <Spinner />}</NavigationContainer>
+		<NavigationContainer>
+			{isLoading ? <Spinner /> : user && token ? <BottomTabNavigator /> : <AuthStack />}
+		</NavigationContainer>
 	);
 };
 
