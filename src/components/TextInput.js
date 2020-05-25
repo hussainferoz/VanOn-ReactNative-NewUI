@@ -58,6 +58,8 @@ const TextInput = (props) => {
 		style,
 		iconRightPress,
 		iconLeftPress,
+		OnChangeText,
+		value,
 		...rest
 	} = props;
 
@@ -80,6 +82,8 @@ const TextInput = (props) => {
 				secureTextEntry={textVisibility}
 				keyboardType={keyboardType && keyboardType}
 				style={[ inputStyles, { fontSize } ]}
+				value={value && value}
+				onChangeText={OnChangeText && OnChangeText}
 			/>
 
 			{iconRightName ? (

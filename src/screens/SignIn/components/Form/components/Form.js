@@ -7,8 +7,18 @@ import Text from '../../../../../components/Text';
 import TextInput from '../../../../../components/TextInput';
 import Button from '../../../../../components/RippleButton';
 
-const Form = ({textColor}) => {
+const Form = ({ textColor }) => {
 	const [ viewPassowrd, setViewPassword ] = useState(true);
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+
+	changeEmailHandler = (value) => {
+		setEmail(value);
+	};
+
+	changePasswordHandler = (value) => {
+		setPassword(value);
+	};
 
 	return (
 		<Animated.View style={styles.actionContainer}>
@@ -20,6 +30,8 @@ const Form = ({textColor}) => {
 				elevation
 				color={textColor}
 				style={styles.textInput}
+				value={email}
+				OnChangeText={changeEmailHandler}
 			/>
 
 			<TextInput
@@ -34,6 +46,8 @@ const Form = ({textColor}) => {
 				elevation
 				color={textColor}
 				style={styles.textInput}
+				value={password}
+				OnChangeText={changePasswordHandler}
 			/>
 
 			<Text fontWeight='SemiBold' color={textColor} style={styles.forgotPassword}>
