@@ -9,7 +9,9 @@ const Reducer = (state = initialState, action) => {
 		case 'TOKEN_NOT_FOUND':
 			return {
 				...state,
-				isLoading: false
+				isLoading: false,
+				token: null,
+				user: null
 			};
 		case 'TOKEN_USER_FOUND':
 			return {
