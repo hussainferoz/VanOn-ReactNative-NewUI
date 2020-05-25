@@ -13,12 +13,17 @@ const Reducer = (state = initialState, action) => {
 				token: null,
 				user: null
 			};
-		case 'TOKEN_USER_FOUND':
+		case 'TOKEN_FOUND':
+			console.log('token--------<<<<<<<TOKEN_FOUND>>>>>>>', action.payload.token);
 			return {
 				...state,
-				isLoading: false,
-				token: action.payload.token,
-				user: action.payload.user
+				token: action.payload.token
+			};
+		case 'SET_TOKEN':
+			console.log('token--------<<<<<<<SET_TOKEN>>>>>>>', action.payload.token);
+			return {
+				...state,
+				token: action.payload.token
 			};
 	}
 	return state;

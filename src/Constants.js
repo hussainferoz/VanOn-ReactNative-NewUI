@@ -10,3 +10,4 @@ export const SCREEN_WIDTH = width;
 export const LOGIN_VIEW = SCREEN_WIDTH / 2.5;
 
 export const tokenName = Config.TOKEN_NAME;
+export const url = Config.API_URL;

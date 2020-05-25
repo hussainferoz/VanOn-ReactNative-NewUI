@@ -15,14 +15,18 @@ const RootStack = () => {
 	const dispatch = useDispatch();
 
 	const tokenNotFound = useCallback(() => dispatch({ type: 'TOKEN_NOT_FOUND' }), [ dispatch ]);
-	const tokenUserFound = useCallback(
-		() => dispatch({ type: 'TOKEN_USER_FOUND', payload: { token: 'SomeToken', user: {} } }),
-		[ dispatch ]
-	);
+	const tokenFound = useCallback((token) => dispatch({ type: 'TOKEN_FOUND', payload: { token } }), [ dispatch ]);
 
 	useEffect(() => {
-		getToken({ tokenNotFound, tokenUserFound });
+		getToken({ tokenNotFound, tokenFound });
 	}, []);
+
+	useEffect(
+		() => {
+			console.log('useEffect------<<<<RootStack>>>', token);
+		},
+		[ token ]
+	);
 
 	return (
 		<NavigationContainer>

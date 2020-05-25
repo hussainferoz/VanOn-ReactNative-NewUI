@@ -1,23 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Animated from 'react-native-reanimated';
 
 import { StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Text from '../../../../../components/Text';
 import TextInput from '../../../../../components/TextInput';
 import Button from '../../../../../components/Button';
 
+import { setToken } from '../../../../../AsyncStorage';
+
 const Form = ({ textColor }) => {
 	const [ viewPassowrd, setViewPassword ] = useState(true);
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
+	const { token } = useSelector((state) => state);
+	const dispatch = useDispatch();
 
-	changeEmailHandler = (value) => {
+	useEffect(
+		() => {
+			console.log('Effect----------<<<<<Form>>>>>>', token);
+		},
+		[ token ]
+	);
+
+	const setTokenData = useCallback((token) => dispatch({ type: 'SET_TOKEN', payload: { token } }), [ dispatch ]);
+
+	const changeEmailHandler = (value) => {
 		setEmail(value);
 	};
 
-	changePasswordHandler = (value) => {
+	const changePasswordHandler = (value) => {
 		setPassword(value);
+	};
+
+	const signInHandler = () => {
+		setToken({ email, password, setTokenData });
 	};
 
 	return (
@@ -54,7 +72,7 @@ const Form = ({ textColor }) => {
 				Forgot Password?
 			</Text>
 
-			<Button iconName='login' bordertype='Rounded' animation='Ripple' elevation>
+			<Button iconName='login' bordertype='Rounded' animation='Ripple' elevation onPress={signInHandler}>
 				Sign In
 			</Button>
 		</Animated.View>
