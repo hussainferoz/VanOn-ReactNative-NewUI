@@ -5,22 +5,10 @@ import ReactNative, { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { SCREEN_WIDTH } from '../Constants';
 
-const getStyles = ({ fontWeight, bordertype, elevation, disabled, color }) => {
+const getStyles = ({ bordertype, elevation, disabled, color }) => {
 	const containerStyles = [ styles.containerDefault ];
 	const inputStyles = [ styles.textInputDefault ];
 	const iconStyles = [ styles.iconDefault ];
-
-	if (fontWeight === 'Light') {
-		inputStyles.push({ fontFamily: 'Light' });
-	} else if (fontWeight === 'Regular') {
-		inputStyles.push({ fontFamily: 'Regular' });
-	} else if (fontWeight === 'SemiBold') {
-		inputStyles.push({ fontFamily: 'SemiBold' });
-	} else if (fontWeight === 'Bold') {
-		inputStyles.push({ fontFamily: 'Bold' });
-	} else if (fontWeight === 'ExtraBold') {
-		inputStyles.push({ fontFamily: 'ExtraBold' });
-	}
 
 	if (color) {
 		inputStyles.push({ color });
@@ -52,6 +40,7 @@ const TextInput = (props) => {
 		iconSize,
 		textVisibility,
 		fontSize,
+		fontWeight,
 		color,
 		disabled,
 		keyboardType,
@@ -81,7 +70,7 @@ const TextInput = (props) => {
 				placeholderTextColor={disabled ? '#fff' : color}
 				secureTextEntry={textVisibility}
 				keyboardType={keyboardType && keyboardType}
-				style={[ inputStyles, { fontSize } ]}
+				style={[ inputStyles, { fontSize, fontFamily: fontWeight } ]}
 				value={value && value}
 				onChangeText={OnChangeText && OnChangeText}
 			/>

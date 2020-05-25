@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 import Text from '../../../../../components/Text';
 import TextInput from '../../../../../components/TextInput';
-import Button from '../../../../../components/RippleButton';
+import Button from '../../../../../components/Button';
 
 const Form = ({ textColor }) => {
 	const [ viewPassowrd, setViewPassword ] = useState(true);
@@ -54,7 +54,9 @@ const Form = ({ textColor }) => {
 				Forgot Password?
 			</Text>
 
-			<Button iconName='login'>Sign In </Button>
+			<Button iconName='login' bordertype='Rounded' animation='Ripple' elevation>
+				Sign In
+			</Button>
 		</Animated.View>
 	);
 };
