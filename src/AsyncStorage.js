@@ -7,7 +7,6 @@ import { tokenName, url } from './Constants';
 export const getToken = async ({ tokenNotFound, tokenFound }) => {
 	try {
 		const token = await AsyncStorage.getItem(tokenName);
-		console.log('getToken------<<<<<>>>>', token);
 		if (!token) {
 			tokenNotFound();
 		} else {
@@ -29,5 +28,12 @@ export const setToken = async ({ email, password, setTokenData }) => {
 				setTokenData(value.token);
 			}
 		});
+	} catch (error) {}
+};
+
+export const removeToken = async (removeUserToken) => {
+	try {
+		await AsyncStorage.removeItem(tokenName);
+		removeUserToken();
 	} catch (error) {}
 };

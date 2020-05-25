@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 
@@ -35,6 +35,7 @@ const Button = (props) => {
 		fontWeight,
 		onPress,
 		style,
+		loading,
 		...rest
 	} = props;
 
@@ -47,20 +48,28 @@ const Button = (props) => {
 				rippleColor={rippleColor}
 				onPress={onPress && onPress}
 			>
-				<Text color={color} fontWeight={fontWeight}>
+				<Text color={color} fontWeight={fontWeight} style={styles.text}>
 					{children}
 				</Text>
-				<Icon name={iconName} size={20} color={color} />
+				{loading ? (
+					<ActivityIndicator color={color} size='small' />
+				) : (
+					<Icon name={iconName} size={20} color={color} />
+				)}
 			</RectButton>
 		);
 	}
 
 	return (
 		<TouchableOpacity style={[ containerStyles, { backgroundColor, ...style } ]} onPress={onPress && onPress}>
-			<Text color={color} fontWeight={fontWeight}>
+			<Text color={color} fontWeight={fontWeight} style={styles.text}>
 				{children}
 			</Text>
-			<Icon name={iconName} size={20} color={color} />
+			{loading ? (
+				<ActivityIndicator color={color} size='small' />
+			) : (
+				<Icon name={iconName} size={20} color={color} />
+			)}
 		</TouchableOpacity>
 	);
 };
@@ -93,5 +102,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: SCREEN_WIDTH - 30,
 		height: 50
+	},
+	text: {
+		marginHorizontal: 5
 	}
 });

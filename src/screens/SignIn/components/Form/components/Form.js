@@ -8,18 +8,20 @@ import Text from '../../../../../components/Text';
 import TextInput from '../../../../../components/TextInput';
 import Button from '../../../../../components/Button';
 
-import { setToken } from '../../../../../AsyncStorage';
+import { setToken, removeToken } from '../../../../../AsyncStorage';
 
 const Form = ({ textColor }) => {
 	const [ viewPassowrd, setViewPassword ] = useState(true);
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
+	const [ loading, setLoading ] = useState(false);
+
 	const { token } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	useEffect(
 		() => {
-			console.log('Effect----------<<<<<Form>>>>>>', token);
+			setLoading(false);
 		},
 		[ token ]
 	);
@@ -35,7 +37,10 @@ const Form = ({ textColor }) => {
 	};
 
 	const signInHandler = () => {
+		setLoading(true);
+
 		setToken({ email, password, setTokenData });
+		// removeToken();
 	};
 
 	return (
@@ -72,7 +77,14 @@ const Form = ({ textColor }) => {
 				Forgot Password?
 			</Text>
 
-			<Button iconName='login' bordertype='Rounded' animation='Ripple' elevation onPress={signInHandler}>
+			<Button
+				iconName='login'
+				bordertype='Rounded'
+				animation='Ripple'
+				elevation
+				onPress={signInHandler}
+				loading={loading}
+			>
 				Sign In
 			</Button>
 		</Animated.View>

@@ -1,10 +1,24 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+
+import { StyleSheet, View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+
+import Button from '../components/Button';
+
+import { removeToken } from '../AsyncStorage';
 
 const Setting = () => {
+	const dispatch = useDispatch();
+
+	const removeUserToken = useCallback(() => dispatch({ type: 'REMOVE_USER_TOKEN' }));
+
+	const logoutHandler = () => {
+		removeToken(removeUserToken);
+	};
+
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Setting Screen</Text>
+			<Button onPress={logoutHandler}>Logout</Button>
 		</View>
 	);
 };
