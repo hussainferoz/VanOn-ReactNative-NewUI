@@ -6,6 +6,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { useFonts } from '@use-expo/font';
 import { AppLoading } from 'expo';
+import { NavigationContainer } from '@react-navigation/native';
 
 import RootStack from './src/navigations/RootStack';
 import Reducer from './src/store/Reducer';
@@ -29,7 +30,9 @@ const App = () => {
 
 	return (
 		<Provider store={store}>
-			<RootStack />
+			<NavigationContainer>
+				<RootStack />
+			</NavigationContainer>
 		</Provider>
 	);
 };

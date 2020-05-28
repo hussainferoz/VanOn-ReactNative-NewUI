@@ -1,13 +1,15 @@
 import React, { useEffect, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import AuthStack from './AuthStack';
 import BottomTabNavigator from './BottomTabNavigator';
 import Loading from '../screens/Loading';
 
 import { getToken } from '../AsyncStorage';
+
+const Stack = createStackNavigator();
 
 const RootStack = () => {
 	const { isLoading, token, user } = useSelector((state) => state);
@@ -27,9 +29,15 @@ const RootStack = () => {
 	);
 
 	return (
-		<NavigationContainer>
-			{isLoading ? <Loading /> : user && token ? <BottomTabNavigator /> : <AuthStack />}
-		</NavigationContainer>
+		<Stack.Navigator headerMode='none' screenOptions={{ animationEnabled: true }}>
+			{isLoading ? (
+				<Stack.Screen name='Loading' component={Loading} />
+			) : user && token ? (
+				<Stack.Screen name='BottomTabNavigator' component={BottomTabNavigator} />
+			) : (
+				<Stack.Screen name='AuthStack' component={AuthStack} />
+			)}
+		</Stack.Navigator>
 	);
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Axios from 'axios';
 
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { url } from '../Constants';
@@ -37,6 +37,7 @@ const Loading = () => {
 
 	return (
 		<View style={styles.container}>
+			<StatusBar barStyle='dark-content' backgroundColor='#fff' />
 			<Image source={require('../../assets/20442-map-v2.gif')} />
 		</View>
 	);
@@ -45,5 +46,10 @@ const Loading = () => {
 export default Loading;
 
 const styles = StyleSheet.create({
-	container: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#fff'
+	}
 });

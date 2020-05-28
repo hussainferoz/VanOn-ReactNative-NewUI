@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 const Map = () => {
@@ -8,6 +8,7 @@ const Map = () => {
 
 	return (
 		<View style={styles.container}>
+			<StatusBar barStyle='dark-content' translucent backgroundColor='transparent' />
 			<MapView
 				provider={PROVIDER_GOOGLE}
 				loadingEnabled
