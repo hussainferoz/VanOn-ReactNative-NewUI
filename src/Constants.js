@@ -11,3 +11,6 @@ export const LOGIN_VIEW = SCREEN_WIDTH / 2.5;
 
 export const tokenName = Config.TOKEN_NAME;
 export const url = Config.API_URL;
+
+export const DELTA = 0.025;
+export const OFFSET = 1.3;

@@ -48,9 +48,7 @@ const BottomTabNavigator = () => {
 								Setting
 							</Text>
 						),
-						tabBarIcon: ({ focused, color }) => (
-							<MaterialCommunityIcons name='settings' color={color} size={26} />
-						)
+						tabBarIcon: ({ color }) => <MaterialCommunityIcons name='settings' color={color} size={26} />
 					}}
 				/>
 			</Tabs.Navigator>
