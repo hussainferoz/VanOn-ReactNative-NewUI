@@ -29,7 +29,10 @@ const Loading = () => {
 					}
 				}).then((promise) => {
 					const value = promise.data;
-					dispatch({ type: 'USER_FOUND', payload: { user: value.user } });
+					if (value.accountType === 'Driver' || value.accountType === 'Passenger') {
+						dispatch({ type: 'USER_FOUND', payload: { user: value } });
+					} else {
+					}
 				});
 			}
 		} catch (error) {}

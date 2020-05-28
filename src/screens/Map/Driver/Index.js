@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-const Map = () => {
+const Index = () => {
 	const [ mapMargin, setMapMargin ] = useState(1);
 
 	return (
@@ -21,7 +21,7 @@ const Map = () => {
 	);
 };
 
-export default Map;
+export default Index;
 
 const styles = StyleSheet.create({
 	container: {
