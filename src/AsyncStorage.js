@@ -17,7 +17,6 @@ export const getToken = async ({ tokenNotFound, tokenFound }) => {
 
 export const setToken = async ({ email, password, setTokenData }) => {
 	try {
-		console.log(email, password);
 		await Axios.post(url + 'api/login', {
 			email,
 			password

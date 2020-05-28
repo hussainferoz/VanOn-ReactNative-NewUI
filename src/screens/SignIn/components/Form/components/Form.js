@@ -8,7 +8,7 @@ import Text from '../../../../../components/Text';
 import TextInput from '../../../../../components/TextInput';
 import Button from '../../../../../components/Button';
 
-import { setToken, removeToken } from '../../../../../AsyncStorage';
+import { setToken } from '../../../../../AsyncStorage';
 
 const Form = ({ textColor }) => {
 	const [ viewPassowrd, setViewPassword ] = useState(true);
@@ -40,7 +40,6 @@ const Form = ({ textColor }) => {
 		setLoading(true);
 
 		setToken({ email, password, setTokenData });
-		// removeToken();
 	};
 
 	return (

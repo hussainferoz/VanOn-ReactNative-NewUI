@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Button from '../components/Button';
 
