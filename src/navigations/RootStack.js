@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,13 +16,16 @@ const RootStack = () => {
 
 	const dispatch = useDispatch();
 
-	const tokenNotFound = useCallback(() => dispatch({ type: 'TOKEN_NOT_FOUND' }), [ dispatch ]);
-	const tokenFound = useCallback((token) => dispatch({ type: 'SET_TOKEN', payload: { token } }), [ dispatch ]);
-
 	useEffect(
 		() => {
 			if (!user && !token) {
-				getToken({ tokenNotFound, tokenFound });
+				getToken().then((tokenValue) => {
+					if (tokenValue) {
+						dispatch({ type: 'SET_TOKEN', payload: { token: tokenValue } });
+					} else {
+						dispatch({ type: 'TOKEN_NOT_FOUND' });
+					}
+				});
 			}
 		},
 		[ isLoading ]

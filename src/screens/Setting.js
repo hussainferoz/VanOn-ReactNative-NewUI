@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -10,10 +10,10 @@ import { removeToken } from '../AsyncStorage';
 const Setting = () => {
 	const dispatch = useDispatch();
 
-	const removeUserToken = useCallback(() => dispatch({ type: 'REMOVE_USER_TOKEN' }));
-
 	const logoutHandler = () => {
-		removeToken(removeUserToken);
+		removeToken().then(() => {
+			dispatch({ type: 'REMOVE_USER_TOKEN' });
+		});
 	};
 
 	return (

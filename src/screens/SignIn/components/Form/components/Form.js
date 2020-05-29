@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Animated from 'react-native-reanimated';
 
 import { StyleSheet } from 'react-native';
@@ -26,8 +26,6 @@ const Form = ({ textColor }) => {
 		[ token ]
 	);
 
-	const setTokenData = useCallback((token) => dispatch({ type: 'SET_TOKEN', payload: { token } }), [ dispatch ]);
-
 	const changeEmailHandler = (value) => {
 		setEmail(value);
 	};
@@ -39,7 +37,9 @@ const Form = ({ textColor }) => {
 	const signInHandler = () => {
 		setLoading(true);
 
-		setToken({ email, password, setTokenData });
+		setToken({ email, password }).then((tokenValue) => {
+			dispatch({ type: 'SET_TOKEN', payload: { token: tokenValue } });
+		});
 	};
 
 	return (
