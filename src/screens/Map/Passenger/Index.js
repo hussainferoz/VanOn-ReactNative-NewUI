@@ -1,14 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-import { StyleSheet, View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+
 import * as Permissions from 'expo-permissions';
 
-import { getUserLocation } from '../Location';
+import { StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
+
+import CustomMarker from '../CustomMarker';
+
+import { DELTA, OFFSET } from '../../../Constants';
 
 const Index = () => {
+	const { user: { passengerPoint: { location: { coordinates } } } } = useSelector((state) => state.user);
 	const [ mapMargin, setMapMargin ] = useState(1);
 	const mapViewRef = useRef(null);
+
+	const point = {
+		latitude: coordinates[1],
+		longitude: coordinates[0]
+	};
 
 	useEffect(() => {
 		requestPermission();
@@ -17,8 +27,14 @@ const Index = () => {
 	const requestPermission = async () => {
 		const { status } = await Permissions.askAsync(Permissions.LOCATION);
 		if (status === Permissions.PermissionStatus.GRANTED) {
-			const region = await getUserLocation();
-			mapViewRef.current.animateToRegion(region, 2000);
+			mapViewRef.current.animateToRegion(
+				{
+					...point,
+					latitudeDelta: DELTA * OFFSET,
+					longitudeDelta: DELTA * OFFSET
+				},
+				2000
+			);
 		}
 	};
 
@@ -27,13 +43,14 @@ const Index = () => {
 			<MapView
 				provider={PROVIDER_GOOGLE}
 				ref={mapViewRef}
-				showsUserLocation
 				zoomControlEnabled
 				style={{ ...StyleSheet.absoluteFill, margin: mapMargin }}
 				onMapReady={() => {
 					setMapMargin(0);
 				}}
-			/>
+			>
+				<CustomMarker point={point} />
+			</MapView>
 		</View>
 	);
 };
