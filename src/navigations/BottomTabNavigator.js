@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import DriverMap from '../screens/Map/Driver/Index';
 import PassengerMap from '../screens/Map/Passenger/Index';
-import Setting from '../screens/Setting';
+import SettingScreen from '../screens/Setting/Index';
 import Text from '../components/Text';
 
 const Tabs = createMaterialBottomTabNavigator();
@@ -15,9 +15,11 @@ const BottomTabNavigator = () => {
 	const { user } = useSelector((state) => state);
 
 	const getUser = () => {
-		if (user.accountType === 'Passenger') {
+		const { accountType } = user;
+
+		if (accountType === 'Passenger') {
 			return PassengerMap;
-		} else if (user.accountType === 'Driver') {
+		} else if (accountType === 'Driver') {
 			return DriverMap;
 		}
 	};
@@ -40,7 +42,7 @@ const BottomTabNavigator = () => {
 				/>
 				<Tabs.Screen
 					name='Setting'
-					component={Setting}
+					component={SettingScreen}
 					options={{
 						tabBarColor: '#00a8f3',
 						tabBarLabel: (

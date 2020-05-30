@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Permissions from 'expo-permissions';
 
@@ -12,7 +12,7 @@ const Index = () => {
 
 	useEffect(() => {
 		requestPermission();
-	});
+	}, []);
 
 	const requestPermission = async () => {
 		const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -24,11 +24,9 @@ const Index = () => {
 
 	return (
 		<View style={styles.container}>
-			<StatusBar barStyle='dark-content' translucent backgroundColor='transparent' />
 			<MapView
 				provider={PROVIDER_GOOGLE}
 				ref={mapViewRef}
-				loadingEnabled
 				showsUserLocation
 				zoomControlEnabled
 				style={{ ...StyleSheet.absoluteFill, margin: mapMargin }}
