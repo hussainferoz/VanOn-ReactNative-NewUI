@@ -1,6 +1,7 @@
 import Axios from 'axios';
+import SocketIo from 'socket.io-client';
 
-import { url } from '../../../Constants';
+import { url } from '../../../../Constants';
 
 export const getPassengerPoints = (token) => {
 	return new Promise(async (resolve, reject) => {
@@ -24,3 +25,20 @@ export const getPassengerPoints = (token) => {
 		} catch (error) {}
 	});
 };
+
+export const socketConnection = SocketIo.connect(url, {
+	timeout: 10000,
+	jsonp: false,
+	transports: [ 'websocket' ],
+	autoConnect: false,
+	agent: '-',
+	path: '/', // Whatever your path is
+	pfx: '-',
+	key: '-', // Using token-based auth.
+	passphrase: '-', // Using cookie auth.
+	cert: '-',
+	ca: '-',
+	ciphers: '-',
+	rejectUnauthorized: '-',
+	perMessageDeflate: '-'
+});
