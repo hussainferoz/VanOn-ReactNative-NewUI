@@ -26,19 +26,4 @@ export const getPassengerPoints = (token) => {
 	});
 };
 
-export const socketConnection = SocketIo.connect(url, {
-	timeout: 10000,
-	jsonp: false,
-	transports: [ 'websocket' ],
-	autoConnect: false,
-	agent: '-',
-	path: '/', // Whatever your path is
-	pfx: '-',
-	key: '-', // Using token-based auth.
-	passphrase: '-', // Using cookie auth.
-	cert: '-',
-	ca: '-',
-	ciphers: '-',
-	rejectUnauthorized: '-',
-	perMessageDeflate: '-'
-});
+export const getSocketConnection = () => SocketIo.connect(url);

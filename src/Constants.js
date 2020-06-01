@@ -14,3 +14,6 @@ export const url = Config.API_URL;
 
 export const DELTA = 0.025;
 export const OFFSET = 1.3;
+
+export const LATITUDE_DELTA = DELTA * OFFSET;
+export const LONGITUDE_DELTA = DELTA * OFFSET;

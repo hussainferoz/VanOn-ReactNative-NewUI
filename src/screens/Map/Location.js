@@ -1,4 +1,4 @@
-import { DELTA, OFFSET } from '../../Constants';
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../Constants';
 
 export const getUserLocation = async () => {
 	return new Promise((resolve, reject) => {
@@ -7,8 +7,8 @@ export const getUserLocation = async () => {
 				resolve({
 					latitude,
 					longitude,
-					latitudeDelta: DELTA * OFFSET,
-					longitudeDelta: DELTA * OFFSET
+					latitudeDelta: LATITUDE_DELTA,
+					longitudeDelta: LONGITUDE_DELTA
 				});
 			},
 			(error) => {
