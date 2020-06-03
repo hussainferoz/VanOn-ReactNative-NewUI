@@ -8,7 +8,10 @@ import { useSelector } from 'react-redux';
 
 import CustomMarker from '../CustomMarker';
 
-import { DELTA, OFFSET } from '../../../Constants';
+import { getSocketConnection } from '../Socket';
+import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../../Constants';
+
+let socket = null;
 
 const Index = () => {
 	const { user: { passengerPoint: { location: { coordinates } } } } = useSelector((state) => state.user);
@@ -22,6 +25,12 @@ const Index = () => {
 
 	useEffect(() => {
 		requestPermission();
+		socket = getSocketConnection();
+
+		return () => {
+			console.log('Unmount');
+			socket.disconnect();
+		};
 	}, []);
 
 	const requestPermission = async () => {
@@ -30,8 +39,8 @@ const Index = () => {
 			mapViewRef.current.animateToRegion(
 				{
 					...point,
-					latitudeDelta: DELTA * OFFSET,
-					longitudeDelta: DELTA * OFFSET
+					latitudeDelta: LATITUDE_DELTA,
+					longitudeDelta: LONGITUDE_DELTA
 				},
 				2000
 			);

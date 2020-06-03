@@ -10,7 +10,8 @@ import CustomMarker from '../CustomMarker';
 import Button from '../../../components/Button';
 
 import { getUserLocation } from '../Location';
-import { getPassengerPoints, getSocketConnection } from './components/Fetch';
+import { getSocketConnection } from '../Socket';
+import { getPassengerPoints } from './components/Fetch';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../../Constants';
 
 let latitudeDeltaValue = null;

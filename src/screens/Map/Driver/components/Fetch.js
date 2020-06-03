@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import SocketIo from 'socket.io-client';
 
 import { url } from '../../../../Constants';
 
@@ -26,4 +25,3 @@ export const getPassengerPoints = (token) => {
 	});
 };
 
-export const getSocketConnection = () => SocketIo.connect(url);
