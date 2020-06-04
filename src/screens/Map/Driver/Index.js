@@ -94,14 +94,6 @@ const Index = () => {
 				);
 
 				const { _id, vendorId, name: { firstName, lastName }, van: { vanNumber } } = user;
-				console.log({
-					id: _id,
-					driverName: `${firstName} ${lastName}`,
-					vanNumber: vanNumber,
-					vendorId: vendorId,
-					heading: heading,
-					coordinate: [ longitude, latitude ]
-				});
 
 				socket.emit('trackVan', {
 					id: _id,

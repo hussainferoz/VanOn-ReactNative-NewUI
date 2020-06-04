@@ -17,3 +17,8 @@ export const OFFSET = 1.3;
 
 export const LATITUDE_DELTA = DELTA * OFFSET;
 export const LONGITUDE_DELTA = DELTA * OFFSET;
+
+export const DEFAULT_DELTAS = {
+	latitudeDelta: LATITUDE_DELTA,
+	longitudeDelta: LONGITUDE_DELTA
+};

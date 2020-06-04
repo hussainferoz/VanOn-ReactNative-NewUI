@@ -9,33 +9,37 @@ import { useSelector } from 'react-redux';
 import CustomMarker from '../CustomMarker';
 
 import { getSocketConnection } from '../Socket';
-import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../../Constants';
+import { LATITUDE_DELTA, LONGITUDE_DELTA, DEFAULT_DELTAS } from '../../../Constants';
 
-const deltas = {
-	latitudeDelta: LATITUDE_DELTA,
-	longitudeDelta: LONGITUDE_DELTA
-};
-
+let latitudeDeltaValue = null;
+let longitudeDeltaValue = null;
 let socket = null;
 
+const changeDeltas = (latitudeDelta = LATITUDE_DELTA, longitudeDelta = LONGITUDE_DELTA) => {
+	latitudeDeltaValue = latitudeDelta;
+	longitudeDeltaValue = longitudeDelta;
+};
+
 const Index = () => {
-	const { user: { passengerPoint: { location: { coordinates } }, driverId } } = useSelector((state) => state.user);
+	const {
+		user: { passengerPoint: { location: { coordinates: [ pointLongitude, pointLatitude ] } }, driverId }
+	} = useSelector((state) => state.user);
 	const [ mapMargin, setMapMargin ] = useState(1);
 	const [ rideStatus, setRideStatus ] = useState(null);
 	const [ MarkerAnimate ] = useState(
 		new AnimatedRegion({
 			latitude: 0,
 			longitude: 0,
-			...deltas
+			...DEFAULT_DELTAS
 		})
 	);
 	const mapViewRef = useRef(null);
 
 	const point = {
-		latitude: 37.4850453,
-		longitude: -122.1489067
-		// latitude: coordinates[1],
-		// longitude: coordinates[0]
+		latitude: pointLatitude,
+		longitude: pointLongitude
+		// latitude: 37.4850453,
+		// longitude: -122.1489067
 	};
 
 	useEffect(() => {
@@ -54,9 +58,9 @@ const Index = () => {
 				mapViewRef.current.animateToRegion(
 					{
 						...point,
-						...deltas
+						...DEFAULT_DELTAS
 					},
-					2000
+					3000
 				);
 			}
 		},
@@ -76,6 +80,8 @@ const Index = () => {
 		socket.once('getRide', getRideCallBack);
 
 		socket.on('rideStatus-' + driverId, rideStatusCallBack);
+
+		socket.on('trackVan-' + driverId, trackVanCallBack);
 	};
 
 	//callback function for the listner get ride.
@@ -90,9 +96,9 @@ const Index = () => {
 				{
 					latitude,
 					longitude,
-					...deltas
+					...DEFAULT_DELTAS
 				},
-				2000
+				3000
 			);
 		}
 	};
@@ -100,6 +106,22 @@ const Index = () => {
 	//callback function for the listner ride status.
 	const rideStatusCallBack = (data) => {
 		setRideStatus(data.rideStatus);
+	};
+
+	const trackVanCallBack = (data) => {
+		const { coordinates: [ longitude, latitude ], rotation } = data;
+
+		MarkerAnimate.timing({ latitude, longitude, duration: 5000 }).start();
+
+		mapViewRef.current.animateToRegion(
+			{
+				latitude,
+				longitude,
+				latitudeDelta: latitudeDeltaValue,
+				longitudeDelta: longitudeDeltaValue
+			},
+			3000
+		);
 	};
 
 	return (
@@ -111,6 +133,9 @@ const Index = () => {
 				style={{ ...StyleSheet.absoluteFill, margin: mapMargin }}
 				onMapReady={() => {
 					setMapMargin(0);
+				}}
+				onRegionChangeComplete={({ latitudeDelta, longitudeDelta }) => {
+					changeDeltas(latitudeDelta, longitudeDelta);
 				}}
 			>
 				<CustomMarker point={point} />
