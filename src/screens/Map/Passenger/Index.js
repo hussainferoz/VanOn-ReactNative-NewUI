@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import MapView, { PROVIDER_GOOGLE, AnimatedRegion, MarkerAnimated } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, AnimatedRegion, MarkerAnimated, Polyline } from 'react-native-maps';
 
 import * as Permissions from 'expo-permissions';
 
@@ -11,8 +11,8 @@ import CustomMarker from '../CustomMarker';
 import { getSocketConnection } from '../Socket';
 import { LATITUDE_DELTA, LONGITUDE_DELTA, DEFAULT_DELTAS } from '../../../Constants';
 
-let latitudeDeltaValue = null;
-let longitudeDeltaValue = null;
+let latitudeDeltaValue = LATITUDE_DELTA;
+let longitudeDeltaValue = LONGITUDE_DELTA;
 let socket = null;
 
 const changeDeltas = (latitudeDelta = LATITUDE_DELTA, longitudeDelta = LONGITUDE_DELTA) => {
@@ -33,13 +33,12 @@ const Index = () => {
 			...DEFAULT_DELTAS
 		})
 	);
+	const [ markerPolyline, setMarkerPolyline ] = useState([]);
 	const mapViewRef = useRef(null);
 
 	const point = {
 		latitude: pointLatitude,
 		longitude: pointLongitude
-		// latitude: 37.4850453,
-		// longitude: -122.1489067
 	};
 
 	useEffect(() => {
@@ -47,7 +46,7 @@ const Index = () => {
 		requestPermission();
 
 		return () => {
-			console.log('Unmount');
+			console.log('Passenger Unmount');
 			socket.disconnect();
 		};
 	}, []);
@@ -100,6 +99,8 @@ const Index = () => {
 				},
 				3000
 			);
+
+			setMarkerPolyline((polyline) => [ ...polyline, { latitude: latitude, longitude: longitude } ]);
 		}
 	};
 
@@ -108,10 +109,10 @@ const Index = () => {
 		setRideStatus(data.rideStatus);
 	};
 
-	const trackVanCallBack = (data) => {
+	const trackVanCallBack = async (data) => {
 		const { coordinates: [ longitude, latitude ], rotation } = data;
 
-		MarkerAnimate.timing({ latitude, longitude, duration: 5000 }).start();
+		MarkerAnimate.timing({ latitude, longitude, duration: 3000 }).start();
 
 		mapViewRef.current.animateToRegion(
 			{
@@ -122,6 +123,8 @@ const Index = () => {
 			},
 			3000
 		);
+
+		setMarkerPolyline((polyline) => [ ...polyline, { latitude: latitude, longitude: longitude } ]);
 	};
 
 	return (
@@ -140,6 +143,7 @@ const Index = () => {
 			>
 				<CustomMarker point={point} />
 				{rideStatus && <MarkerAnimated coordinate={MarkerAnimate} />}
+				<Polyline coordinates={markerPolyline} strokeWidth={5} strokeColor={'black'} />
 			</MapView>
 		</View>
 	);
