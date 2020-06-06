@@ -24,6 +24,8 @@ export const setToken = ({ email, password }) => {
 				if (value.token) {
 					await AsyncStorage.setItem(tokenName, value.token);
 					resolve(value.token);
+				} else {
+					reject(value.message);
 				}
 			});
 		} catch (error) {}

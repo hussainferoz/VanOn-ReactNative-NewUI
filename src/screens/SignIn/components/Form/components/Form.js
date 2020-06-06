@@ -15,6 +15,7 @@ const Form = ({ textColor }) => {
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
 	const [ loading, setLoading ] = useState(false);
+	const [ error, setError ] = useState('');
 
 	const { token } = useSelector((state) => state);
 	const dispatch = useDispatch();
@@ -37,9 +38,36 @@ const Form = ({ textColor }) => {
 	const signInHandler = () => {
 		setLoading(true);
 
-		setToken({ email, password }).then((tokenValue) => {
-			dispatch({ type: 'SET_TOKEN', payload: { token: tokenValue } });
-		});
+		if (!email && !password) {
+			setError('Please enter email and password!');
+			setLoading(false);
+		} else if (!email && password) {
+			setError('Please enter email address!');
+			setLoading(false);
+		} else if (email && !password) {
+			setError('Please enter password!');
+			setLoading(false);
+		} else {
+			if (validateEmail(email)) {
+				setError('');
+				setToken({ email, password })
+					.then((tokenValue) => {
+						dispatch({ type: 'SET_TOKEN', payload: { token: tokenValue } });
+					})
+					.catch((error) => {
+						setError(error);
+						setLoading(false);
+					});
+			} else {
+				setError('Please enter a valid email address!');
+				setLoading(false);
+			}
+		}
+	};
+
+	const validateEmail = (email) => {
+		const re = /\S+@\S+\.\S+/;
+		return re.test(email);
 	};
 
 	return (
@@ -55,7 +83,6 @@ const Form = ({ textColor }) => {
 				value={email}
 				OnChangeText={changeEmailHandler}
 			/>
-
 			<TextInput
 				iconLeftName='key'
 				iconRightName={viewPassowrd ? 'eye' : 'eye-off'}
@@ -72,8 +99,8 @@ const Form = ({ textColor }) => {
 				OnChangeText={changePasswordHandler}
 			/>
 
-			<Text fontWeight='SemiBold' color={textColor} style={styles.forgotPassword}>
-				Forgot Password?
+			<Text fontWeight='SemiBold' color={'red'} style={styles.error}>
+				{error}
 			</Text>
 
 			<Button
@@ -96,10 +123,9 @@ const styles = StyleSheet.create({
 	actionContainer: {
 		alignItems: 'center'
 	},
-	forgotPassword: {
-		alignSelf: 'flex-end',
-		marginBottom: 30,
-		marginRight: 30
+	error: {
+		alignSelf: 'center',
+		marginBottom: 10
 	},
 	textInput: {
 		marginVertical: 15
