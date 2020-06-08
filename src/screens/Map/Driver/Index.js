@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import Animated, { cond, eq, set, block, Value, event } from 'react-native-reanimated';
 
 import * as Permissions from 'expo-permissions';
 
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useTimingTransition } from 'react-native-redash';
+import { TapGestureHandler, State } from 'react-native-gesture-handler';
 
 import CustomMarker from '../CustomMarker';
 import Button from '../../../components/Button';
@@ -12,7 +15,7 @@ import Button from '../../../components/Button';
 import { getUserLocation } from '../Location';
 import { getSocketConnection } from '../Socket';
 import { getPassengerPoints } from './components/Fetch';
-import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../../Constants';
+import { LATITUDE_DELTA, LONGITUDE_DELTA, SCREEN_WIDTH } from '../../../Constants';
 
 let latitudeDeltaValue = null;
 let longitudeDeltaValue = null;
@@ -30,6 +33,9 @@ const Index = () => {
 	const [ rideStatus, setRideStatus ] = useState(null);
 	const [ watchId, setWatchId ] = useState(null);
 	const mapViewRef = useRef(null);
+	const slide = useRef(new Value(0));
+
+	const slideAnimation = useTimingTransition(slide.current, { duration: 300 });
 
 	const { watchPosition, clearWatch } = navigator.geolocation;
 
@@ -111,6 +117,28 @@ const Index = () => {
 		setWatchId(id);
 	};
 
+	const onStartStateChange = event([
+		{
+			nativeEvent: ({ state }) => block([ cond(eq(state, State.END), set(slide.current, 1)) ])
+		}
+	]);
+
+	const onEndStateChange = event([
+		{
+			nativeEvent: ({ state }) => block([ cond(eq(state, State.END), set(slide.current, 0)) ])
+		}
+	]);
+
+	const startButton = Animated.interpolate(slideAnimation, {
+		inputRange: [ 0, 1 ],
+		outputRange: [ SCREEN_WIDTH / 2 - 75, SCREEN_WIDTH ]
+	});
+
+	const endButton = Animated.interpolate(slideAnimation, {
+		inputRange: [ 0, 1 ],
+		outputRange: [ SCREEN_WIDTH, SCREEN_WIDTH / 2 - 75 ]
+	});
+
 	return (
 		<View style={styles.container}>
 			<MapView
@@ -128,17 +156,46 @@ const Index = () => {
 			>
 				{allMarkers && allMarkers.map((point, index) => <CustomMarker key={index} point={point} />)}
 			</MapView>
-			<Button
-				bordertype='Rounded'
-				animation='Ripple'
-				elevation
-				style={styles.but}
-				onPress={() => {
-					setRideStatus(!rideStatus);
-				}}
-			>
-				{rideStatus ? 'End Ride' : 'Start Ride'}
-			</Button>
+			<TapGestureHandler onHandlerStateChange={onEndStateChange}>
+				<Animated.View
+					style={{
+						...styles.buttonView,
+						left: endButton
+					}}
+				>
+					<Button
+						bordertype='Rounded'
+						animation='Ripple'
+						elevation
+						style={styles.button}
+						onPress={() => {
+							setRideStatus(false);
+						}}
+					>
+						End Ride
+					</Button>
+				</Animated.View>
+			</TapGestureHandler>
+			<TapGestureHandler onHandlerStateChange={onStartStateChange}>
+				<Animated.View
+					style={{
+						...styles.buttonView,
+						right: startButton
+					}}
+				>
+					<Button
+						bordertype='Rounded'
+						animation='Ripple'
+						elevation
+						style={styles.button}
+						onPress={() => {
+							setRideStatus(true);
+						}}
+					>
+						Start Ride
+					</Button>
+				</Animated.View>
+			</TapGestureHandler>
 		</View>
 	);
 };
@@ -151,9 +208,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	but: {
+	buttonView: {
 		position: 'absolute',
-		bottom: 10,
+		bottom: 10
+	},
+	button: {
 		width: 150
 	}
 });
