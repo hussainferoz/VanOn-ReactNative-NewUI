@@ -3,7 +3,7 @@ import MapView, { PROVIDER_GOOGLE, AnimatedRegion, MarkerAnimated, Polyline } fr
 
 import * as Permissions from 'expo-permissions';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import CustomMarker from '../CustomMarker';
@@ -34,6 +34,7 @@ const Index = () => {
 		})
 	);
 	const [ markerPolyline, setMarkerPolyline ] = useState([]);
+	const [ imageRotate, setImageRotate ] = useState(0);
 	const mapViewRef = useRef(null);
 
 	const point = {
@@ -112,6 +113,8 @@ const Index = () => {
 	const trackVanCallBack = async (data) => {
 		const { coordinates: [ longitude, latitude ], rotation } = data;
 
+		setImageRotate(rotation);
+
 		MarkerAnimate.timing({ latitude, longitude, duration: 3000 }).start();
 
 		mapViewRef.current.animateToRegion(
@@ -142,7 +145,20 @@ const Index = () => {
 				}}
 			>
 				<CustomMarker point={point} />
-				{rideStatus && <MarkerAnimated coordinate={MarkerAnimate} />}
+				{rideStatus && (
+					<MarkerAnimated
+						coordinate={MarkerAnimate}
+						style={{
+							transform: [
+								{
+									rotate: `${imageRotate}deg`
+								}
+							]
+						}}
+					>
+						<Image source={require('../../../../assets/md-car.png')} style={styles.image} />
+					</MarkerAnimated>
+				)}
 				<Polyline coordinates={markerPolyline} strokeWidth={5} strokeColor={'black'} />
 			</MapView>
 		</View>
@@ -156,5 +172,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	image: {
+		width: 20,
+		height: 50
 	}
 });
