@@ -7,10 +7,10 @@ import * as Permissions from 'expo-permissions';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useTimingTransition } from 'react-native-redash';
-import { TapGestureHandler, State } from 'react-native-gesture-handler';
+import { State } from 'react-native-gesture-handler';
 
+import SlideButton from './components/SlideButton';
 import CustomMarker from '../CustomMarker';
-import Button from '../../../components/Button';
 
 import { getUserLocation } from '../Location';
 import { getSocketConnection } from '../Socket';
@@ -156,46 +156,22 @@ const Index = () => {
 			>
 				{allMarkers && allMarkers.map((point, index) => <CustomMarker key={index} point={point} />)}
 			</MapView>
-			<TapGestureHandler onHandlerStateChange={onEndStateChange}>
-				<Animated.View
-					style={{
-						...styles.buttonView,
-						left: endButton
-					}}
-				>
-					<Button
-						bordertype='Rounded'
-						animation='Ripple'
-						elevation
-						style={styles.button}
-						onPress={() => {
-							setRideStatus(false);
-						}}
-					>
-						End Ride
-					</Button>
-				</Animated.View>
-			</TapGestureHandler>
-			<TapGestureHandler onHandlerStateChange={onStartStateChange}>
-				<Animated.View
-					style={{
-						...styles.buttonView,
-						right: startButton
-					}}
-				>
-					<Button
-						bordertype='Rounded'
-						animation='Ripple'
-						elevation
-						style={styles.button}
-						onPress={() => {
-							setRideStatus(true);
-						}}
-					>
-						Start Ride
-					</Button>
-				</Animated.View>
-			</TapGestureHandler>
+			<SlideButton
+				tapHandler={onEndStateChange}
+				animateStyle={{ left: endButton }}
+				buttonHandler={() => {
+					setRideStatus(false);
+				}}
+				buttonName={'End Ride'}
+			/>
+			<SlideButton
+				tapHandler={onStartStateChange}
+				animateStyle={{ right: startButton }}
+				buttonHandler={() => {
+					setRideStatus(true);
+				}}
+				buttonName={'Start Ride'}
+			/>
 		</View>
 	);
 };
@@ -207,12 +183,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
-	},
-	buttonView: {
-		position: 'absolute',
-		bottom: 10
-	},
-	button: {
-		width: 150
 	}
 });
